@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: linear-gradient(135deg, #eaf6f6 0%, #f8fdff 100%);
+            scroll-behavior: smooth;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .blog-header {
+            background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+            padding: 22px 0 18px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .navbar .logo {
+            font-size: 2rem;
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0;
+        }
+        .navbar .nav-links li a {
+            color: #fff;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .navbar .nav-links li a:hover {
+            color: #ffe082;
+        }
+        .appointment-booking {
+            margin-top: 120px;
+            padding: 40px 0;
+            background: none;
+            display: flex;
+            gap: 32px;
+        }
+        .main-content {
+            flex: 2 1 600px;
+        }
+        .sidebar {
+            flex: 1 1 320px;
+            background: #fff;
+            border-radius: 1.2rem;
+            box-shadow: 0 2px 16px 0 #00c6fb11;
+            padding: 28px 18px 18px 18px;
+            min-width: 260px;
+            max-width: 350px;
+            height: fit-content;
+        }
+        .sidebar h3 {
+            color: #005bea;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .sidebar ul {
+            padding-left: 18px;
+            margin-bottom: 24px;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .sidebar ul li a {
+            color: #00c6fb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .sidebar ul li a:hover {
+            color: #005bea;
+        }
+        .appointment-booking h2 {
+            text-align: left;
+            font-size: 2.2rem;
+            color: #00c6fb;
+            margin-bottom: 32px;
+            font-weight: 700;
+        }
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 28px 22px 18px 22px;
+            background-color: #fff;
+            border-radius: 1.2rem;
+            box-shadow: 0 2px 16px 0 #00c6fb11;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1.5px solid #b3e5fc;
+            border-radius: 7px;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #00c6fb;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 198, 251, 0.2);
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: linear-gradient(90deg,#00c6fb 0%,#005bea 100%);
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-submit:hover {
+            background: linear-gradient(90deg,#005bea 0%,#00c6fb 100%);
+        }
+        .schedule-calendar {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .schedule-calendar h3 {
+            font-size: 1.3rem;
+            color: #005bea;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        #calendar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #calendar .day {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg,#00c6fb 0%,#005bea 100%);
+            color: #fff;
+            border-radius: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        #calendar .day:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px 0 #00c6fb33;
+        }
+        .blog-footer {
+            background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+            color: #fff;
+            text-align: center;
+            padding: 28px 0 18px 0;
+            margin-top: 60px;
+            border-radius: 2rem 2rem 0 0;
+            box-shadow: 0 -2px 16px 0 #00c6fb22;
+        }
+        @media (max-width: 900px) {
+            .appointment-booking {
+                flex-direction: column;
+            }
+            .sidebar {
+                max-width: 100%;
+                margin-top: 32px;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 8px;
+            }
+            .blog-header {
+                padding: 12px 0 8px 0;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 8px;
+                padding: 0 4px;
+            }
+            .sidebar {
+                padding: 12px 2vw 10px 2vw;
+            }
+            .booking-form {
+                padding: 12px 2vw 10px 2vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header/Navbar -->
+    <header class="blog-header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Clinic Logo</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Appointment Booking Section -->
+    <section id="appointment-booking" class="appointment-booking">
+        <div class="container" style="margin-top:0;">
+            <div class="appointment-booking" style="margin-top:0;">
+                <div class="main-content">
+                    <h2>Book an Appointment</h2>
+                    <div class="booking-form" aria-label="Appointment Booking Form">
+                        <form id="appointment-form" autocomplete="on">
+                            <div class="form-group">
+                                <label for="patient-name">Name:</label>
+                                <input type="text" id="patient-name" name="patient-name" required aria-required="true" aria-label="Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="patient-email">Email:</label>
+                                <input type="email" id="patient-email" name="patient-email" required aria-required="true" aria-label="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="patient-phone">Phone Number:</label>
+                                <input type="tel" id="patient-phone" name="patient-phone" required aria-required="true" aria-label="Phone Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Department:</label>
+                                <select id="department" name="department" required aria-required="true" aria-label="Department">
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="cardiology">Cardiology</option>
+                                    <option value="orthopedics">Orthopedics</option>
+                                    <option value="pediatrics">Pediatrics</option>
+                                    <option value="dermatology">Dermatology</option>
+                                    <option value="neurology">Neurology</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor">Doctor:</label>
+                                <select id="doctor" name="doctor" required aria-required="true" aria-label="Doctor">
+                                    <option value="" disabled selected>Select Doctor</option>
+                                    <option value="dr-smith">Dr. Smith</option>
+                                    <option value="dr-jones">Dr. Jones</option>
+                                    <option value="dr-lee">Dr. Lee</option>
+                                    <option value="dr-patel">Dr. Patel</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment-date">Appointment Date:</label>
+                                <input type="date" id="appointment-date" name="appointment-date" required aria-required="true" aria-label="Appointment Date">
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment-time">Appointment Time:</label>
+                                <select id="appointment-time" name="appointment-time" required aria-required="true" aria-label="Appointment Time">
+                                    <option value="" disabled selected>Select Time</option>
+                                    <option value="9am">09:00 AM</option>
+                                    <option value="10am">10:00 AM</option>
+                                    <option value="11am">11:00 AM</option>
+                                    <option value="12pm">12:00 PM</option>
+                                    <option value="2pm">02:00 PM</option>
+                                    <option value="3pm">03:00 PM</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-submit">Book Appointment</button>
+                        </form>
+                    </div>
+                    <!-- Schedule Calendar -->
+                    <div class="schedule-calendar">
+                        <h3>Doctor's Availability</h3>
+                        <div id="calendar" aria-label="Doctor's Availability Calendar">
+                            <!-- Calendar will be populated here -->
+                        </div>
+                    </div>
+                    <!-- Testimonials Section -->
+                    <div class="testimonials-section" style="margin-top:48px;text-align:center;">
+                        <h3 style="color:#005bea;font-weight:700;margin-bottom:18px;">What Our Patients Say</h3>
+                        <div class="testimonial-slider" style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
+                            <div class="testimonial-card" style="background:#fff;border-radius:1rem;box-shadow:0 2px 16px 0 #00c6fb11;padding:22px 20px;max-width:320px;min-width:220px;flex:1 1 220px;">
+                                <p style="font-style:italic;color:#333;">“The appointment process was smooth and the staff was very helpful!”</p>
+                                <div class="author" style="margin-top:10px;font-weight:600;color:#005bea;">— Priya S.</div>
+                            </div>
+                            <div class="testimonial-card" style="background:#fff;border-radius:1rem;box-shadow:0 2px 16px 0 #00c6fb11;padding:22px 20px;max-width:320px;min-width:220px;flex:1 1 220px;">
+                                <p style="font-style:italic;color:#333;">“Doctors here are very professional and caring. Highly recommended!”</p>
+                                <div class="author" style="margin-top:10px;font-weight:600;color:#005bea;">— Rahul M.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Newsletter Signup -->
+                    <div class="newsletter-section" style="margin-top:48px;text-align:center;">
+                        <h3 style="color:#00c6fb;font-weight:700;">Stay Updated</h3>
+                        <p style="color:#333;max-width:420px;margin:0 auto 18px auto;">Subscribe to our newsletter for health tips, clinic news, and exclusive offers.</p>
+                        <form class="newsletter-form" onsubmit="event.preventDefault();alert('Thank you for subscribing!');">
+                            <input type="email" name="newsletter-email" placeholder="Enter your email" required style="padding:10px 14px;border-radius:7px;border:1.5px solid #b3e5fc;min-width:180px;">
+                            <button type="submit" style="padding:10px 22px;border-radius:7px;border:none;background:linear-gradient(90deg,#00c6fb 0%,#005bea 100%);color:#fff;font-weight:600;transition:background 0.2s;">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <h3>Appointment Tips</h3>
+                    <ul>
+                        <li>Arrive 10 minutes early for your appointment.</li>
+                        <li>Bring your ID and insurance documents.</li>
+                        <li>List your current medications.</li>
+                        <li>Prepare your questions for the doctor.</li>
+                        <li>Follow pre-visit instructions if any.</li>
+                    </ul>
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><strong>Phone:</strong> (123) 456-7890</li>
+                        <li><strong>Email:</strong> info@clinic.com</li>
+                        <li><strong>Address:</strong> 123 Health St, City</li>
+                    </ul>
+                    <h3>Emergency?</h3>
+                    <ul>
+                        <li style="color:#d32f2f;font-weight:600;">Call 108 for immediate help</li>
+                        <li>Nearest Hospital: City General Hospital</li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="blog-footer">
+    &copy; 2025 Clinic Name. All rights reserved.<br>
+    <span style="font-size:0.95em;">This website is for informational purposes only and does not provide medical advice.</span>
+    </footer>
+
+    <script>
+        // Function to populate calendar with available dates
+        function populateCalendar() {
+            const calendar = document.getElementById('calendar');
+            const days = 30; // Number of days to display
+            for (let i = 1; i <= days; i++) {
+                const day = document.createElement('div');
+                day.classList.add('day');
+                day.textContent = `Aug ${i}`;
+                calendar.appendChild(day);
+            }
+        }
+        // Form Submission with modal
+        document.getElementById('appointment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            document.getElementById('success-modal').style.display = 'flex';
+        });
+        window.onload = populateCalendar;
+</footer>
+
+<!-- Success Modal -->
+<div id="success-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;z-index:2000;">
+    <div style="background:#fff;padding:32px 24px;border-radius:1.2rem;box-shadow:0 2px 24px 0 #00c6fb33;text-align:center;max-width:340px;width:90vw;">
+        <h2 style="color:#00c6fb;margin-bottom:12px;">Appointment Booked!</h2>
+        <p style="color:#333;">Thank you for booking your appointment. We look forward to seeing you!</p>
+        <button onclick="document.getElementById('success-modal').style.display='none'" style="margin-top:18px;padding:10px 22px;border-radius:7px;border:none;background:linear-gradient(90deg,#00c6fb 0%,#005bea 100%);color:#fff;font-weight:600;">Close</button>
+    </div>
+</div>
+    </script>
+
+
+
+
+</body>
+
+</html>
